@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>国内求职链接助手</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header" aria-labelledby="app-title">
+      <div class="title-row">
+        <div>
+          <p class="eyebrow">Job Link Finder</p>
+          <h1 id="app-title">国内求职链接助手</h1>
+          <p class="subtitle">第一块优先看企业官网入口；第二块再按岗位、城市、公司搜索相关企业和招聘平台链接。</p>
+        </div>
+        <button id="exportBtn" class="ghost-button" type="button">导出投递表</button>
+      </div>
+    </header>
+
+    <section class="summary-grid" aria-label="数据概览">
+      <article>
+        <span id="companyCount">0</span>
+        <p>首批企业</p>
+      </article>
+      <article>
+        <span id="favoriteCount">0</span>
+        <p>已收藏</p>
+      </article>
+      <article>
+        <span id="appliedCount">0</span>
+        <p>已投递</p>
+      </article>
+    </section>
+
+    <section class="official-section" aria-labelledby="official-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Part 1</p>
+          <h2 id="official-title">企业官网入口</h2>
+        </div>
+        <p>按企业类型分组，优先打开官网招聘页。</p>
+      </div>
+      <div id="officialGroups" class="official-groups"></div>
+    </section>
+
+    <section class="search-panel" aria-labelledby="search-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Part 2</p>
+          <h2 id="search-title">岗位 / 城市 / 公司搜索</h2>
+        </div>
+        <p>本地版会从企业库匹配相关企业，并生成官网岗位搜索和招聘平台链接。</p>
+      </div>
+
+      <div class="search-box">
+        <label for="queryInput">输入岗位、企业，或“企业 + 岗位”</label>
+        <div class="input-row">
+          <input id="queryInput" type="search" placeholder="例如：腾讯 前端开发 / 数据分析 / 比亚迪" autocomplete="off">
+          <select id="citySelect" aria-label="城市筛选">
+            <option value="">不限城市</option>
+          </select>
+          <button id="searchBtn" type="button">搜索</button>
+        </div>
+      </div>
+
+      <div class="quick-tags" aria-label="快速岗位">
+        <button type="button" data-query="前端开发">前端开发</button>
+        <button type="button" data-query="Java 后端">Java 后端</button>
+        <button type="button" data-query="产品经理">产品经理</button>
+        <button type="button" data-query="数据分析">数据分析</button>
+        <button type="button" data-query="算法工程师">算法工程师</button>
+        <button type="button" data-query="测试开发">测试开发</button>
+      </div>
+    </section>
+
+    <section class="results-layout">
+      <div class="results-main">
+        <div class="section-heading">
+          <h2>相关企业与岗位链接</h2>
+          <p id="resultHint">输入关键词后，会优先显示可能相关的企业官网入口。</p>
+        </div>
+        <div id="results" class="results-list"></div>
+      </div>
+
+      <aside class="side-panel" aria-label="企业库">
+        <div class="section-heading compact">
+          <h2>企业库</h2>
+          <p>点击企业可快速搜索。</p>
+        </div>
+        <div id="companyList" class="company-list"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="companies.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
