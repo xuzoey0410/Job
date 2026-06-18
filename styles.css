@@ -46,6 +46,7 @@ button {
 .app-header,
 .search-panel,
 .official-section,
+.follow-section,
 .results-main,
 .side-panel,
 .summary-grid article {
@@ -69,6 +70,12 @@ button {
 }
 
 .official-section {
+  border-radius: 8px;
+  margin: 18px 0;
+  padding: 22px;
+}
+
+.follow-section {
   border-radius: 8px;
   margin: 18px 0;
   padding: 22px;
@@ -206,6 +213,34 @@ button:hover,
 .quick-tags button {
   min-height: 36px;
   padding: 0 13px;
+}
+
+.follow-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.follow-tab {
+  min-height: 36px;
+  padding: 0 13px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+.follow-tab:hover,
+.follow-tab.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.follow-results {
+  max-height: 620px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .summary-grid {
@@ -477,6 +512,10 @@ button:hover,
 
 .empty-state h3 {
   margin-bottom: 8px;
+}
+
+.compact-empty {
+  padding: 22px;
 }
 
 @media (max-width: 900px) {
