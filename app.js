@@ -40,14 +40,19 @@ const elements = {
 };
 
 elements.officialGroups = document.querySelector("#officialGroups");
+elements.followResults = document.querySelector("#followResults");
+elements.followHint = document.querySelector("#followHint");
+elements.followTabs = document.querySelectorAll("[data-follow-filter]");
 
 let state = loadState();
+let activeFollowFilter = "all";
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeCities();
   renderOfficialGroups();
   renderCompanyList(companies);
   renderEmptyState();
+  renderFollowResults();
   updateCounters();
 });
 
@@ -65,6 +70,14 @@ document.querySelectorAll("[data-query]").forEach(button => {
   });
 });
 
+elements.followTabs.forEach(button => {
+  button.addEventListener("click", () => {
+    activeFollowFilter = button.dataset.followFilter;
+    elements.followTabs.forEach(tab => tab.classList.toggle("active", tab === button));
+    renderFollowResults();
+  });
+});
+
 function loadState() {
   try {
     return JSON.parse(localStorage.getItem(storageKey)) || {};
@@ -76,6 +89,7 @@ function loadState() {
 function saveState() {
   localStorage.setItem(storageKey, JSON.stringify(state));
   updateCounters();
+  renderFollowResults();
 }
 
 function initializeCities() {
@@ -248,7 +262,45 @@ function renderRoleSearch(keyword) {
 
 function renderResults(resultCompanies, role, mode) {
   elements.results.innerHTML = resultCompanies.map(company => renderCompanyCard(company, role, mode)).join("");
-  bindCardActions();
+  bindCardActions(elements.results);
+}
+
+function renderFollowResults() {
+  const followedCompanies = companies.filter(company => companyMatchesFollowFilter(company));
+  const filterLabel = getFollowFilterLabel(activeFollowFilter);
+
+  if (followedCompanies.length === 0) {
+    elements.followResults.innerHTML = `
+      <div class="empty-state compact-empty">
+        <h3>${escapeHtml(filterLabel)}暂无记录</h3>
+        <p>在搜索结果里收藏企业，或把状态改成已打开、已投递、面试中、不合适后，这里会自动出现。</p>
+      </div>
+    `;
+    elements.followHint.textContent = `当前筛选：${filterLabel}。`;
+    return;
+  }
+
+  elements.followResults.innerHTML = followedCompanies
+    .map(company => renderCompanyCard(company, "", "follow"))
+    .join("");
+  elements.followHint.textContent = `当前筛选：${filterLabel}，共 ${followedCompanies.length} 家。`;
+  bindCardActions(elements.followResults);
+}
+
+function companyMatchesFollowFilter(company) {
+  const record = state[company.name];
+  if (!record) return false;
+  if (activeFollowFilter === "all") return Boolean(record.favorite || record.status);
+  if (activeFollowFilter === "favorite") return Boolean(record.favorite);
+  return record.status === activeFollowFilter;
+}
+
+function getFollowFilterLabel(filter) {
+  const labels = {
+    all: "全部记录",
+    favorite: "已收藏"
+  };
+  return labels[filter] || filter;
 }
 
 function renderCompanyCard(company, role, mode) {
@@ -289,8 +341,8 @@ function linkTemplate(label, url, variant) {
   return `<a class="${className}" href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
 }
 
-function bindCardActions() {
-  document.querySelectorAll(".result-card[data-company]").forEach(card => {
+function bindCardActions(root = document) {
+  root.querySelectorAll(".result-card[data-company]").forEach(card => {
     const companyName = card.dataset.company;
     const favoriteButton = card.querySelector(".favorite-btn");
     const statusSelect = card.querySelector(".status-select");
