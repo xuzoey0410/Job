@@ -112,7 +112,7 @@ window.COMPANIES = [
   { name: "菜鸟", aliases: ["Cainiao"], industry: "物流科技", cities: ["杭州", "上海", "深圳"], careerUrl: "https://talent.alibaba.com/" },
   { name: "京东物流", aliases: ["JD Logistics"], industry: "物流科技", cities: ["北京", "上海", "成都"], careerUrl: "https://zhaopin.jd.com/" },
   { name: "三一重工", aliases: ["SANY"], industry: "工程机械", cities: ["长沙", "北京", "上海"], careerUrl: "https://sany.zhiye.com/" },
-  { name: "迈瑞医疗", aliases: ["Mindray"], industry: "医疗器械", cities: ["深圳", "武汉", "南京"], careerUrl: "https://www.mindray.com/cn/careers" },
+  { name: "迈瑞医疗", aliases: ["Mindray"], industry: "医疗器械", cities: ["深圳", "武汉", "南京"], careerUrl: "https://career.mindray.com/campus" },
   { name: "药明康德", aliases: ["WuXi AppTec"], industry: "医药研发", cities: ["上海", "苏州", "无锡"], careerUrl: "https://www.wuxiapptec.com/careers" },
   { name: "百济神州", aliases: ["BeiGene"], industry: "生物医药", cities: ["北京", "上海", "广州"], careerUrl: "https://www.beigene.com/careers/" },
   { name: "恒瑞医药", aliases: ["Hengrui"], industry: "医药", cities: ["连云港", "上海", "成都"], careerUrl: "https://www.hrs.com.cn/careers" },
