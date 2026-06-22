@@ -1,0 +1,81 @@
+{
+  "keywords": [
+    "前端"
+  ],
+  "checkedCompanies": 8,
+  "companies": [
+    {
+      "company": "腾讯",
+      "url": "https://careers.tencent.com/",
+      "ok": true,
+      "count": 5,
+      "error": "",
+      "finalUrl": "https://careers.tencent.com/",
+      "source": "dedicated"
+    },
+    {
+      "company": "阿里巴巴",
+      "url": "https://talent.alibaba.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://talent.alibaba.com/",
+      "source": "generic-html"
+    },
+    {
+      "company": "字节跳动",
+      "url": "https://jobs.bytedance.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://jobs.bytedance.com/",
+      "source": "generic-html"
+    },
+    {
+      "company": "美团",
+      "url": "https://zhaopin.meituan.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://zhaopin.meituan.com/web/home",
+      "source": "generic-html"
+    },
+    {
+      "company": "京东",
+      "url": "https://zhaopin.jd.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://zhaopin.jd.com/home;jsessionid=46C52426576541AA4ADEA37900FD7CC7.s1",
+      "source": "generic-html"
+    },
+    {
+      "company": "百度",
+      "url": "https://talent.baidu.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://talent.baidu.com/jobs/social",
+      "source": "generic-html"
+    },
+    {
+      "company": "网易",
+      "url": "https://hr.163.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://hr.163.com/",
+      "source": "generic-html"
+    },
+    {
+      "company": "小米",
+      "url": "https://hr.xiaomi.com/",
+      "ok": true,
+      "count": 0,
+      "error": "",
+      "finalUrl": "https://hr.xiaomi.com/",
+      "source": "generic-html"
+    }
+  ],
+  "jobCount": 5
+}

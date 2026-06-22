@@ -357,6 +357,57 @@ button:hover,
   gap: 14px;
 }
 
+.job-cache-heading {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.job-cache-list {
+  display: grid;
+  gap: 10px;
+}
+
+.job-cache-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.job-cache-card h3 {
+  margin-bottom: 5px;
+  font-size: 17px;
+}
+
+.job-cache-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.job-cache-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  min-width: 90px;
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #fff;
+  background: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.job-cache-card a:hover {
+  background: var(--accent-strong);
+}
+
 .result-card {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -542,5 +593,14 @@ button:hover,
 
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .job-cache-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .job-cache-card a {
+    width: 100%;
   }
 }

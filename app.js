@@ -1,4 +1,5 @@
 const companies = window.COMPANIES || [];
+const openJobs = window.OPEN_JOBS || [];
 
 const platforms = [
   { name: "BOSS直聘", buildUrl: query => `https://www.zhipin.com/web/geek/job?query=${encodeURIComponent(query)}` },
@@ -40,6 +41,8 @@ const elements = {
 };
 
 elements.officialGroups = document.querySelector("#officialGroups");
+elements.jobCacheResults = document.querySelector("#jobCacheResults");
+elements.jobCacheHint = document.querySelector("#jobCacheHint");
 elements.followResults = document.querySelector("#followResults");
 elements.followHint = document.querySelector("#followHint");
 elements.followTabs = document.querySelectorAll("[data-follow-filter]");
@@ -52,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderOfficialGroups();
   renderCompanyList(companies);
   renderEmptyState();
+  renderJobCacheResults("");
   renderFollowResults();
   updateCounters();
 });
@@ -202,6 +206,7 @@ function runSearch() {
   const city = elements.citySelect.value;
   if (!query && !city) {
     renderEmptyState();
+    renderJobCacheResults("");
     renderCompanyList(companies);
     return;
   }
@@ -212,6 +217,7 @@ function runSearch() {
   if (matched && companyMatchesCity(matched.company)) {
     const role = extractRole(query, matched.matchedTerm);
     renderResults([matched.company], role, "company");
+    renderJobCacheResults([matched.company.name, role, city].filter(Boolean).join(" "));
     renderCompanyList(filteredCompanies, matched.company.name);
     elements.resultHint.textContent = role
       ? `已识别为“${matched.company.name} + ${role}”。`
@@ -224,9 +230,11 @@ function runSearch() {
 
   if (suggestions.length > 0) {
     renderResults(suggestions, keyword, "role-company-list");
+    renderJobCacheResults([keyword, city].filter(Boolean).join(" "));
     elements.resultHint.textContent = `找到 ${suggestions.length} 家可能相关企业。每张卡片优先给官网入口和官网岗位搜索。`;
   } else {
     renderRoleSearch(keyword || city);
+    renderJobCacheResults([keyword, city].filter(Boolean).join(" "));
     elements.resultHint.textContent = `企业库里暂时没有明显匹配项，先生成“${keyword || city}”的官网搜索和招聘平台链接。`;
   }
 
@@ -258,6 +266,50 @@ function renderRoleSearch(keyword) {
       </div>
     </article>
   `;
+}
+
+function renderJobCacheResults(keyword) {
+  const query = normalize(keyword || "");
+  const city = elements.citySelect.value;
+  const filteredJobs = openJobs.filter(job => {
+    const text = normalize([job.company, job.title, job.location, job.source].filter(Boolean).join(" "));
+    const matchesQuery = !query || text.includes(query) || query.split(/\s+/).filter(Boolean).some(part => text.includes(part));
+    const matchesCity = !city || String(job.location || "").includes(city);
+    return matchesQuery && matchesCity;
+  }).slice(0, 30);
+
+  if (openJobs.length === 0) {
+    elements.jobCacheResults.innerHTML = `
+      <div class="empty-state compact-empty">
+        <h3>暂无岗位缓存</h3>
+        <p>运行 fetch-open-jobs.py 后会生成 jobs.js，页面会在这里展示抓取到的官网公开岗位。</p>
+      </div>
+    `;
+    elements.jobCacheHint.textContent = "还没有运行岗位更新脚本。";
+    return;
+  }
+
+  if (filteredJobs.length === 0) {
+    elements.jobCacheResults.innerHTML = `
+      <div class="empty-state compact-empty">
+        <h3>没有匹配的缓存岗位</h3>
+        <p>可以换一个岗位关键词，或重新运行岗位更新脚本更新缓存。</p>
+      </div>
+    `;
+    elements.jobCacheHint.textContent = `岗位缓存共 ${openJobs.length} 条，当前筛选 0 条。`;
+    return;
+  }
+
+  elements.jobCacheResults.innerHTML = filteredJobs.map(job => `
+    <article class="job-cache-card">
+      <div>
+        <h3>${escapeHtml(job.title)}</h3>
+        <p>${escapeHtml([job.company, job.location, job.updatedAt, job.source].filter(Boolean).join(" · "))}</p>
+      </div>
+      <a href="${job.url}" target="_blank" rel="noopener noreferrer">打开岗位</a>
+    </article>
+  `).join("");
+  elements.jobCacheHint.textContent = `岗位缓存共 ${openJobs.length} 条，当前筛选 ${filteredJobs.length} 条。`;
 }
 
 function renderResults(resultCompanies, role, mode) {
